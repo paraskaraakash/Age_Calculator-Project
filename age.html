@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Advanced Age Calculator</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px;
+      animation: fadeIn 1s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    h1 {
+      color: #333;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-size: 16px;
+      color: #555;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .result {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #333;
+      font-weight: bold;
+    }
+    .error {
+      color: red;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Advanced Age Calculator</h1>
+    <form id="ageCalculatorForm">
+      <label for="dob">Select Your Date of Birth:</label>
+      <input type="date" id="dob" required>
+      <div class="error" id="error"></div>
+      <button type="button" onclick="calculateAge()">Calculate Age</button>
+    </form>
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function calculateAge() {
+      const dobInput = document.getElementById('dob').value;
+      const errorDiv = document.getElementById('error');
+      const resultDiv = document.getElementById('result');
+      errorDiv.textContent = '';
+      resultDiv.textContent = '';
+
+      if (!dobInput) {
+        errorDiv.textContent = 'Please select a valid date of birth!';
+        return;
+      }
+
+      const dob = new Date(dobInput);
+      const today = new Date();
+
+      if (dob > today) {
+        errorDiv.textContent = 'Date of birth cannot be in the future!';
+        return;
+      }
+
+      let years = today.getFullYear() - dob.getFullYear();
+      let months = today.getMonth() - dob.getMonth();
+      let days = today.getDate() - dob.getDate();
+
+      if (days < 0) {
+        months--;
+        days += new Date(today.getFullYear(), today.getMonth(), 0).getDate();
+      }
+
+      if (months < 0) {
+        years--;
+        months += 12;
+      }
+
+      resultDiv.innerHTML = `
+        <p>You are <strong>${years} years</strong>, 
+        <strong>${months} months</strong>, 
+        and <strong>${days} days</strong> old.</p>`;
+    }
+  </script>
+</body>
+</html>
